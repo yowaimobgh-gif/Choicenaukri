@@ -1,0 +1,16 @@
+name: Fix APK on CP1
+on:
+  workflow_dispatch:
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write apk.php via FTP
+        run: |
+          echo '<?php' > apk.php
+          echo "header('Location: https://github.com/yowaimobgh-gif/Choicenaukri/releases/download/v1.0/choice_naukri.apk', true, 302);" >> apk.php
+          echo 'exit;' >> apk.php
+          curl -s --connect-timeout 20 --max-time 40 \
+            -T apk.php \
+            "ftp://s4411.lon1.stableserver.net/public_html/api/download/apk.php" \
+            -u "${{ secrets.FTP_USER }}:${{ secrets.FTP_PASS }}" && echo "apk.php uploaded" || echo "FAILED"
