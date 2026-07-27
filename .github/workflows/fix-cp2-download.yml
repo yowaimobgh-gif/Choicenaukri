@@ -1,0 +1,34 @@
+name: Fix CP2 download page APK link
+on:
+  workflow_dispatch:
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Patch and re-upload CP2 index.html
+        run: |
+          FTP="ftp://s3638.use1.stableserver.net"
+          CREDS="${{ secrets.FTP2_USER }}:${{ secrets.FTP2_PASS }}"
+
+          echo "=== Listing /public_html/download/ ==="
+          curl -s --connect-timeout 15 -u "$CREDS" "$FTP/public_html/download/" || echo "(listing failed)"
+
+          curl -s --connect-timeout 15 --max-time 30 \
+            -u "$CREDS" -o index.html "$FTP/public_html/download/index.html"
+          echo "Downloaded $(wc -c < index.html) bytes"
+          echo "=== Current APK href ==="
+          grep -i "apk\|github\|download" index.html | grep href || echo "(no apk href found)"
+
+          # Patch any raw.githubusercontent or old GitHub URL to new releases URL
+          sed -i 's|https://raw.githubusercontent.com/[^"'"'"']*\.apk|https://github.com/yowaimobgh-gif/Choicenaukri/releases/download/v1.0/get_job_naukri.apk|g' index.html
+          sed -i 's|https://github.com/yowaimobgh-gif/Choicenaukri/releases/download/v1.0/get_job\.apk|https://github.com/yowaimobgh-gif/Choicenaukri/releases/download/v1.0/get_job_naukri.apk|g' index.html
+
+          echo "=== After patch ==="
+          grep -i "apk\|github\|download" index.html | grep href || echo "(no apk href)"
+          grep "releases/download" index.html && echo "✅ releases URL present" || echo "❌ No releases URL — showing full index.html:"
+          grep -v "releases/download" index.html | grep "github\|apk" || true
+          cat index.html | tail -20
+
+          curl -s --connect-timeout 15 --max-time 30 \
+            -u "$CREDS" -T index.html "$FTP/public_html/download/index.html" \
+            && echo "✅ index.html uploaded" || echo "❌ Upload failed"
