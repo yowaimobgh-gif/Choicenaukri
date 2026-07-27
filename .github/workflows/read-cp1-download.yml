@@ -1,0 +1,19 @@
+name: Read CP1 download page
+on:
+  workflow_dispatch:
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download and inspect /download/ from CP1
+        run: |
+          # List files in download dir
+          curl -s --connect-timeout 15 --max-time 30             "ftp://s4411.lon1.stableserver.net/public_html/download/"             -u "${{ secrets.FTP_USER }}:${{ secrets.FTP_PASS }}" || true
+
+          # Get index.html
+          curl -s --connect-timeout 15 --max-time 30             -o dl_index.html             "ftp://s4411.lon1.stableserver.net/public_html/download/index.html"             -u "${{ secrets.FTP_USER }}:${{ secrets.FTP_PASS }}"
+          echo "=== index.html ==="
+          cat dl_index.html
+
+          # Get assets dir listing
+          curl -s --connect-timeout 15 --max-time 30             "ftp://s4411.lon1.stableserver.net/public_html/download/assets/"             -u "${{ secrets.FTP_USER }}:${{ secrets.FTP_PASS }}" || true
