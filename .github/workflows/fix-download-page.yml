@@ -1,0 +1,34 @@
+name: Fix CP1 download page APK link
+on:
+  workflow_dispatch:
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List and patch download dir
+        run: |
+          FTP="ftp://s4411.lon1.stableserver.net"
+          CREDS="${{ secrets.FTP_USER }}:${{ secrets.FTP_PASS }}"
+
+          echo "=== Listing /public_html/download/ ==="
+          curl -s --connect-timeout 15 -u "$CREDS" "$FTP/public_html/download/"
+
+          echo "=== Listing /public_html/download/assets/ ==="
+          curl -s --connect-timeout 15 -u "$CREDS" "$FTP/public_html/download/assets/"
+
+          echo "=== Downloading index.html ==="
+          curl -s --connect-timeout 15 -u "$CREDS" -o index.html "$FTP/public_html/download/index.html"
+          cat index.html
+
+          echo "=== Downloading all JS files in assets ==="
+          mkdir -p assets
+          # Get asset listing
+          curl -s --connect-timeout 15 -u "$CREDS" "$FTP/public_html/download/assets/" | \
+            grep -oP '(?<=\s)\S+\.js' | while read f; do
+              echo "Downloading assets/$f ..."
+              curl -s --connect-timeout 15 -u "$CREDS" \
+                -o "assets/$f" "$FTP/public_html/download/assets/$f"
+              echo "=== $f APK refs ==="
+              grep -oP 'https?://[^\s"'"'"']+apk[^\s"'"'"']*' "assets/$f" || echo "(none)"
+              grep -oP '/api/download/apk[^\s"'"'"']*' "assets/$f" || echo "(no /api/download refs)"
+            done
