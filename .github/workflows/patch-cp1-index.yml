@@ -1,0 +1,27 @@
+name: Patch CP1 download index.html
+on:
+  workflow_dispatch:
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Patch href and re-upload
+        run: |
+          FTP="ftp://s4411.lon1.stableserver.net"
+          CREDS="${{ secrets.FTP_USER }}:${{ secrets.FTP_PASS }}"
+
+          curl -s --connect-timeout 15 --max-time 30 \
+            -u "$CREDS" -o index.html "$FTP/public_html/download/index.html"
+          echo "Downloaded $(wc -c < index.html) bytes"
+
+          OLD='https://raw.githubusercontent.com/yowaimobgh-gif/Choicenaukri/main/choice_naukri.apk'
+          NEW='https://github.com/yowaimobgh-gif/Choicenaukri/releases/download/v1.0/choice_naukri.apk'
+          sed -i "s|$OLD|$NEW|g" index.html
+
+          echo "=== patched href line ==="
+          grep -n "href" index.html | grep -i "apk\|download\|github" || echo "(check manually)"
+          grep "releases/download" index.html && echo "✅ New URL present" || echo "❌ Replace failed"
+
+          curl -s --connect-timeout 15 --max-time 30 \
+            -u "$CREDS" -T index.html "$FTP/public_html/download/index.html" \
+            && echo "✅ index.html uploaded" || echo "❌ Upload failed"
