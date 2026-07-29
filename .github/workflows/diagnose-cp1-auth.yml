@@ -1,0 +1,43 @@
+name: diagnose-cp1-auth
+on:
+  workflow_dispatch:
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
+
+      - name: Read signin.php from CP1
+        env:
+          FTP_HOST: ${{ secrets.CP1_FTP_HOST }}
+          FTP_USER: ${{ secrets.CP1_FTP_USER }}
+          FTP_PASS: ${{ secrets.CP1_FTP_PASS }}
+        run: |
+          lftp -c "open -u '$FTP_USER','$FTP_PASS' ftp://$FTP_HOST; get /public_html/api/auth/signin.php -o /tmp/signin.php" 2>&1 || true
+          echo "=== signin.php ===" 
+          cat /tmp/signin.php 2>/dev/null || echo "FILE NOT FOUND"
+
+      - name: Read signup.php from CP1
+        env:
+          FTP_HOST: ${{ secrets.CP1_FTP_HOST }}
+          FTP_USER: ${{ secrets.CP1_FTP_USER }}
+          FTP_PASS: ${{ secrets.CP1_FTP_PASS }}
+        run: |
+          lftp -c "open -u '$FTP_USER','$FTP_PASS' ftp://$FTP_HOST; get /public_html/api/auth/signup.php -o /tmp/signup.php" 2>&1 || true
+          echo "=== signup.php ==="
+          cat /tmp/signup.php 2>/dev/null || echo "FILE NOT FOUND"
+
+      - name: Read users.json from CP1
+        env:
+          FTP_HOST: ${{ secrets.CP1_FTP_HOST }}
+          FTP_USER: ${{ secrets.CP1_FTP_USER }}
+          FTP_PASS: ${{ secrets.CP1_FTP_PASS }}
+        run: |
+          lftp -c "open -u '$FTP_USER','$FTP_PASS' ftp://$FTP_HOST; get /public_html/users.json -o /tmp/users.json" 2>&1 || true
+          echo "=== /public_html/users.json ==="
+          cat /tmp/users.json 2>/dev/null || echo "FILE NOT FOUND"
+          
+          lftp -c "open -u '$FTP_USER','$FTP_PASS' ftp://$FTP_HOST; get /public_html/api/auth/users.json -o /tmp/users_auth.json" 2>&1 || true
+          echo "=== /public_html/api/auth/users.json ==="
+          cat /tmp/users_auth.json 2>/dev/null || echo "FILE NOT FOUND"
