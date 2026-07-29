@@ -1,0 +1,24 @@
+name: Deploy favicon and index to CP1
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload index.html and favicon.svg to CP1
+        env:
+          INDEX_B64: PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KICA8aGVhZD4KICAgIDxtZXRhIGNoYXJzZXQ9IlVURi04IiAvPgogICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAsIG1heGltdW0tc2NhbGU9MSIgLz4KICAgIDx0aXRsZT5OYXVrcmkuY29tIC0gSm9iIFNlYXJjaCB8IEZpbmQgSm9icyBPbmxpbmU8L3RpdGxlPgogICAgPG1ldGEgbmFtZT0iZGVzY3JpcHRpb24iIGNvbnRlbnQ9IlNlYXJjaCBhbmQgYXBwbHkgZm9yIGpvYnMgb25saW5lLiBOYXVrcmkuY29tIC0gSW5kaWEncyBOby4xIEpvYiBQb3J0YWwuIEZpbmQgNSBsYWtoKyBqb2JzIGFjcm9zcyB0b3AgY29tcGFuaWVzLiIgLz4KICAgIDxtZXRhIG5hbWU9InJvYm90cyIgY29udGVudD0iaW5kZXgsIGZvbGxvdyIgLz4KICAgIDxtZXRhIHByb3BlcnR5PSJvZzp0aXRsZSIgY29udGVudD0iTmF1a3JpLmNvbSAtIEpvYiBTZWFyY2ggfCBGaW5kIEpvYnMgT25saW5lIiAvPgogICAgPG1ldGEgcHJvcGVydHk9Im9nOmRlc2NyaXB0aW9uIiBjb250ZW50PSJTZWFyY2ggYW5kIGFwcGx5IGZvciBqb2JzIG9ubGluZS4gTmF1a3JpLmNvbSAtIEluZGlhJ3MgTm8uMSBKb2IgUG9ydGFsLiBGaW5kIDUgbGFraCsgam9icyBhY3Jvc3MgdG9wIGNvbXBhbmllcy4iIC8+CiAgICA8bWV0YSBwcm9wZXJ0eT0ib2c6dHlwZSIgY29udGVudD0id2Vic2l0ZSIgLz4KICAgIDxtZXRhIHByb3BlcnR5PSJvZzppbWFnZSIgY29udGVudD0iL29wZW5ncmFwaC5qcGciIC8+CiAgICA8bWV0YSBwcm9wZXJ0eT0ib2c6aW1hZ2U6d2lkdGgiIGNvbnRlbnQ9IjEyODAiIC8+CiAgICA8bWV0YSBwcm9wZXJ0eT0ib2c6aW1hZ2U6aGVpZ2h0IiBjb250ZW50PSI3MjAiIC8+CiAgICA8bWV0YSBuYW1lPSJ0d2l0dGVyOmNhcmQiIGNvbnRlbnQ9InN1bW1hcnlfbGFyZ2VfaW1hZ2UiIC8+CiAgICA8bWV0YSBuYW1lPSJ0d2l0dGVyOnRpdGxlIiBjb250ZW50PSJOYXVrcmkuY29tIC0gSm9iIFNlYXJjaCB8IEZpbmQgSm9icyBPbmxpbmUiIC8+CiAgICA8bWV0YSBuYW1lPSJ0d2l0dGVyOmRlc2NyaXB0aW9uIiBjb250ZW50PSJTZWFyY2ggYW5kIGFwcGx5IGZvciBqb2JzIG9ubGluZS4gTmF1a3JpLmNvbSAtIEluZGlhJ3MgTm8uMSBKb2IgUG9ydGFsLiBGaW5kIDUgbGFraCsgam9icyBhY3Jvc3MgdG9wIGNvbXBhbmllcy4iIC8+CiAgICA8bWV0YSBuYW1lPSJ0d2l0dGVyOmltYWdlIiBjb250ZW50PSIvb3BlbmdyYXBoLmpwZyIgLz4KICAgIDxsaW5rIHJlbD0iaWNvbiIgdHlwZT0iaW1hZ2Uvc3ZnK3htbCIgaHJlZj0iL2Zhdmljb24uc3ZnIiAvPgogICAgPGxpbmsgcmVsPSJwcmVjb25uZWN0IiBocmVmPSJodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tIj4KICAgIDxsaW5rIHJlbD0icHJlY29ubmVjdCIgaHJlZj0iaHR0cHM6Ly9mb250cy5nc3RhdGljLmNvbSIgY3Jvc3NvcmlnaW4+CiAgICA8bGluayBocmVmPSJodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PUludGVyOndnaHRANDAwOzUwMDs2MDA7NzAwJmRpc3BsYXk9c3dhcCIgcmVsPSJzdHlsZXNoZWV0Ij4KICAgIDxzY3JpcHQgdHlwZT0ibW9kdWxlIiBjcm9zc29yaWdpbiBzcmM9Ii9hc3NldHMvaW5kZXgtRERqUy13bGwuanMiPjwvc2NyaXB0PgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBjcm9zc29yaWdpbiBocmVmPSIvYXNzZXRzL2luZGV4LURDR3gyU3hqLmNzcyI+CiAgPC9oZWFkPgogIDxib2R5PgogICAgPGRpdiBpZD0icm9vdCI+PC9kaXY+CiAgPC9ib2R5Pgo8L2h0bWw+Cg==
+          FAVICON_B64: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSI4IiBmaWxsPSIjZmZmZmZmIi8+CiAgPCEtLSBOYXVrcmktc3R5bGUgIm4iIGxvZ28gaW4gYnJhbmQgYmx1ZSAtLT4KICA8dGV4dCB4PSI1MCUiIHk9IjUyIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIgogICAgICAgIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjQ0IiBmb250LXdlaWdodD0iOTAwIgogICAgICAgIGZpbGw9IiM0YTkwZDkiIGxldHRlci1zcGFjaW5nPSItMSI+bjwvdGV4dD4KICA8IS0tIFJlZCBkb3QgYWNjZW50IGxpa2UgbmF1a3JpLmNvbSBicmFuZGluZyAtLT4KICA8Y2lyY2xlIGN4PSI0OCIgY3k9IjIwIiByPSI1IiBmaWxsPSIjZTAzYzMxIi8+Cjwvc3ZnPgo=
+        run: |
+          FTP="ftp://s4411.lon1.stableserver.net"
+          CREDS="${{ secrets.FTP_USER }}:${{ secrets.FTP_PASS }}"
+
+          echo "$INDEX_B64" | base64 -d > index.html
+          echo "$FAVICON_B64" | base64 -d > favicon.svg
+
+          echo "=== index.html og:image line ==="
+          grep "og:image" index.html
+
+          curl -s --connect-timeout 20 --max-time 30             -T index.html "$FTP/public_html/index.html" -u "$CREDS"             && echo "✅ index.html uploaded" || echo "❌ index.html FAILED"
+
+          curl -s --connect-timeout 20 --max-time 30             -T favicon.svg "$FTP/public_html/favicon.svg" -u "$CREDS"             && echo "✅ favicon.svg uploaded" || echo "❌ favicon.svg FAILED"
