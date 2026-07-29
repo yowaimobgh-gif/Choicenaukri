@@ -1,0 +1,30 @@
+name: Read CP1 auth files
+on:
+  workflow_dispatch:
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read signup.php signin.php and users.json from CP1
+        run: |
+          FTP="ftp://s4411.lon1.stableserver.net"
+          CREDS="${{ secrets.FTP_USER }}:${{ secrets.FTP_PASS }}"
+
+          echo "=== signup.php ==="
+          curl -s --connect-timeout 15 -u "$CREDS" "$FTP/public_html/api/auth/signup.php"
+
+          echo ""
+          echo "=== signin.php ==="
+          curl -s --connect-timeout 15 -u "$CREDS" "$FTP/public_html/api/auth/signin.php"
+
+          echo ""
+          echo "=== users.json (first 500 bytes) ==="
+          curl -s --connect-timeout 15 -u "$CREDS" "$FTP/public_html/api/auth/users.json" | head -c 500 || echo "(not found)"
+
+          echo ""
+          echo "=== auth dir listing ==="
+          curl -s --connect-timeout 15 -u "$CREDS" "$FTP/public_html/api/auth/"
+
+          echo ""
+          echo "=== api dir listing ==="
+          curl -s --connect-timeout 15 -u "$CREDS" "$FTP/public_html/api/"
